@@ -14,21 +14,6 @@ import os
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
-# input image size [ , 64, 64, 3]
-# con_layers = [
-#     layers.Conv2D(32, kernel_size=[3, 3], padding="same", activation=tf.nn.relu),
-#     layers.Conv2D(32, kernel_size=[3, 3], padding="same", activation=tf.nn.relu),
-#     layers.MaxPool2D(pool_size=[2, 2], strides=2, padding="same"),
-#
-#     layers.Conv2D(64, kernel_size=[3, 3], padding="same", activation=tf.nn.relu),
-#     layers.Conv2D(64, kernel_size=[3, 3], padding="same", activation=tf.nn.relu),
-#     layers.MaxPool2D(pool_size=[2, 2], strides=2, padding="same"),
-#
-#     layers.Conv2D(64, kernel_size=[3, 3], padding="same", activation=tf.nn.relu),
-#     layers.Conv2D(64, kernel_size=[3, 3], padding="same", activation=tf.nn.relu),
-#     layers.MaxPool2D(pool_size=[2, 2], strides=2, padding="same")
-# ]
-
 root_img = 'D:\\tensorflow\\My_Work\\Target_Detect\\face_images\\'
 img_mean = tf.constant([0.485, 0.456, 0.406])
 img_std = tf.constant([0.229, 0.224, 0.225])
@@ -54,85 +39,6 @@ my_layers = [
     layers.Dropout(rate=0.5),
     layers.Dense(2, activation=None)
 ]
-
-
-# class MyModel(keras.Model):
-#     def __init__(self):
-#         super(MyModel, self).__init__()
-#         self.con11 = layers.Conv2D(32, kernel_size=[3, 3], padding="same", activation=tf.nn.relu)
-#         self.con12 = layers.Conv2D(32, kernel_size=[3, 3], padding="same", activation=tf.nn.relu)
-#         self.mp1 = layers.MaxPool2D(pool_size=[2, 2], strides=2, padding="same")
-#
-#         self.con21 = layers.Conv2D(64, kernel_size=[3, 3], padding="same", activation=tf.nn.relu)
-#         self.con22 = layers.Conv2D(64, kernel_size=[3, 3], padding="same", activation=tf.nn.relu)
-#         self.mp2 = layers.MaxPool2D(pool_size=[2, 2], strides=2, padding="same")
-#
-#         self.con31 = layers.Conv2D(64, kernel_size=[3, 3], padding="same", activation=tf.nn.relu)
-#         self.con32 = layers.Conv2D(64, kernel_size=[3, 3], padding="same", activation=tf.nn.relu)
-#         self.mp3 = layers.MaxPool2D(pool_size=[2, 2], strides=2, padding="same")
-#
-#         self.flat = layers.Flatten()
-#
-#         self.fc1 = layers.Dense(512, activation=tf.nn.relu)
-#         self.drop = layers.Dropout(rate=0.5)
-#         self.fc2 = layers.Dense(2, activation=None)
-#
-#     def call(self, inputs, training=None):
-#         x = self.con11(inputs)
-#         x = self.con12(x)
-#         x = self.mp1(x)
-#         x = self.con21(x)
-#         x = self.con22(x)
-#         x = self.mp2(x)
-#         x = self.con31(x)
-#         x = self.con32(x)
-#         x = self.mp3(x)
-#         x = self.flat(x)
-#         x = self.fc1(x)
-#         x = self.drop(x)
-#         x = self.fc2(x)
-#
-#         return x
-
-
-# def my_model():
-#     my_net = MyModel()
-#     my_net.build(input_shape=[None, 64, 64, 3])
-#
-#     optimizer = optimizers.Adam(lr=1e-3)
-#     for epoch in range(50):
-#         for step, (x, y) in enumerate(db_train):
-#             with tf.GradientTape() as tape:
-#                 out = my_net(x)
-#                 # print('out', out.shape)
-#                 logits = out
-#                 y_onehot = tf.one_hot(y, depth=2)
-#                 loss = tf.losses.categorical_crossentropy(y_onehot, logits, from_logits=True)
-#                 loss = tf.reduce_mean(loss)
-#             grads = tape.gradient(loss, my_net.trainable_variables)
-#             optimizer.apply_gradients(zip(grads, my_net.trainable_variables))
-#
-#             if step % 5 == 0:
-#                 print(epoch, step, 'loss:', float(loss))
-#
-#         total_num = 0
-#         total_correct = 0
-#         for x2, y2 in db_test:
-#             out = my_net(x2)
-#             logits = out
-#             prob = tf.nn.softmax(logits, axis=1)
-#             # tf.argmax() : axis=1 表示返回每一行最大值对应的索引, axis=0 表示返回每一列最大值对应的索引
-#             pred = tf.argmax(prob, axis=1)
-#             # 将pred转化为int32数据类型，便于后面与y2进行比较
-#             pred = tf.cast(pred, dtype=tf.int32)
-#
-#             correct = tf.cast(tf.equal(pred, y2), dtype=tf.int32)
-#             correct = tf.reduce_sum(correct)
-#
-#             total_num += x2.shape[0]
-#             total_correct += int(correct)
-#         acc = total_correct / total_num
-#         print(epoch, 'acc:', acc)
 
 
 # root为我们之前获得图片数据的根目录face_images，filename为我们要加载的csv文件，
